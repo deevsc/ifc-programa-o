@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> blog </title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<style type="text/css">
+	
+	body{
+		margin: 0;
+		padding: 0;
+		background: lightgrey;
+		align-items: center
+	}
+
+	.container {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		font-family: open sans;
+		width: 80%;
+		align-self: center;
+	}
+
+	.post {
+		width: 50vw;
+		height: 50vh;
+		background-color: lightpink;
+		border: 1px solid pink;
+		display: flex;
+		flex-direction: column;
+	}
+
+	select {
+
+		width: 50vw;
+		height: 10vh;
+		background-color: lightblue;	
+		font-family: open sans;
+	}
+
+	</style>
+</head>
+<body>
+
+	<div class="container">
+		
+		<select class="categorias"></select>
+		<div class="post">
+			<div class="id"></div>
+			<div class="titulo"></div>
+			<div class ="texto"></div>
+			<div class="id_categoria"></div>
+			<div class="autor"></div>
+		</div>
+
+	</div>
+
+</body>
+
+<script type="text/javascript">
+	
+	var selCat = document.querySelector("select.categorias");
+	var post = document.querySelector("div.post");
+	      async function buscar() {
+
+            var request = await fetch('../api/categoria/read.php')
+            var response = await request.json()
+        
+            selCat.innerHTML = "<option>Selecione uma categoria</option>"
+            console.log(response)
+            response.forEach(categoria => {
+                
+                selCat.innerHTML += "<option value="+ categoria.id +">" +categoria.nome+ "</option>"
+
+            })
+        } 
+
+        selCat.addEventListener('change', async evt => {
+
+        	async function buscarPost(){
+	        	var request = await fetch('../api/post/read.php?id='+selCat.value)
+	            var response = await request.json()
+	            post.innerHTML = "aqui aparecem os posts";
+				console.log()
+	         //    response.forEach(value => {
+	         //    	// console.log(value)
+	         //    	// console.log("\n\n\n" + Object.getOwnPropertyNames(value))
+	         //        post.innerHTML = "";
+
+	         //        post.innerHTML += "<div.id>" + "id do post: " + value.id + "</div>"
+	         //        post.innerHTML += "<div.id_categoria>" + "id da categoria: " + value.id_categoria + "</div>"
+	         //        post.innerHTML += "<div.titulo>"+ "titulo: " + value.titulo + "</div>"
+	         //   		post.innerHTML += "<div.descricao>"+ "texto: " + value.texto + "</div>"
+	         //   		post.innerHTML += "<div.autor>"+ "autor: " + value.autor + "</div>"
+
+	         //    })
+	        	// }
+        	}
+     	    buscarPost()
+
+        })
+        
+
+        buscar()
+
+
+</script>
+
+</html>
